@@ -1,0 +1,171 @@
+<p-toolbar styleClass="mb-6">
+    <ng-template #start>
+        <p-button label="Nuevo Jugador" icon="pi pi-plus" severity="secondary" class="mr-2" (onClick)="openNew()" />
+    </ng-template>
+</p-toolbar>
+<p-toast></p-toast>
+
+<p-table
+    #dt
+    [value]="jugadores()"
+    [rows]="10"
+    [columns]="cols"
+    [paginator]="true"
+    [globalFilterFields]="['nombre', 'apodo', 'pos_principal', 'pos_secundaria', 'pierna_habil', 'media']"
+    [tableStyle]="{ 'min-width': '75rem' }"
+    [(selection)]="selectedJugador"
+    [rowHover]="true"
+    dataKey="id"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} jugadores"
+    [showCurrentPageReport]="true"
+    [rowsPerPageOptions]="[10, 20, 30]"
+>
+    <ng-template #caption>
+        <div class="flex items-center justify-between">
+            <h5 class="m-0">Lista Jugadores</h5>
+            <p-iconfield>
+                <p-inputicon styleClass="pi pi-search" />
+                <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search..." />
+            </p-iconfield>
+        </div>
+    </ng-template>
+    <ng-template #header>
+        <tr>
+            <th style="width: 3rem">
+                <p-tableHeaderCheckbox />
+            </th>
+            <th style="min-width: 16rem">Nombre</th>
+            <th pSortableColumn="apodo" style="min-width:16rem">
+                Apodo
+                <p-sortIcon field="apodo" />
+            </th>
+            <th pSortableColumn="pos_principal" style="min-width: 8rem">
+                Pos. Principal
+                <p-sortIcon field="pos_principal" />
+            </th>
+            <th pSortableColumn="pos_secundaria" style="min-width:10rem">
+                Pos. Secundaria
+                <p-sortIcon field="pos_secundaria" />
+            </th>
+            <th pSortableColumn="pierna_habil" style="min-width: 12rem">
+                Pierna Habil
+                <p-sortIcon field="pierna_habil" />
+            </th>
+            <th pSortableColumn="media" style="min-width: 12rem">
+                Media
+                <p-sortIcon field="media" />
+            </th>
+            <th style="min-width: 12rem"></th>
+        </tr>
+    </ng-template>
+    <ng-template #body let-jugador>
+        <tr>
+            <td style="width: 3rem">
+                <p-tableCheckbox [value]="jugador" />
+            </td>
+            <td style="min-width: 12rem">{{ jugador.nombre }}</td>
+            <td style="min-width: 16rem">{{ jugador.apodo }}</td>
+            <td>{{ jugador.pos_principal }}</td>
+            <td>{{ jugador.pos_secundaria }}</td>
+            <td>{{ jugador.pierna_habil }}</td>
+            <td>
+                <p-badge value="i" (click)="estadisticasJugador(jugador)" badgeSize="small" severity="info" />
+                {{ jugador.media }}
+            </td>
+            <td>
+                <p-button icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true" (click)="editJugador(jugador)" />
+                <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true" (click)="deleteJugador(jugador)" />
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+
+<p-dialog [(visible)]="jugadorDialog" [style]="{ width: '450px'  }" header="Jugador" [modal]="true">
+    <ng-template #content>
+        <div class="flex flex-col gap-6">
+            <div>
+                <label for="nombre" class="block font-bold mb-3">Nombre</label>
+                <input type="text" pInputText id="nombre" [(ngModel)]="jugador.nombre" required autofocus fluid />
+                <small class="text-red-500" *ngIf="submitted && !jugador.nombre">Requerido.</small>
+            </div>
+            <div>
+                <label for="apodo" class="block font-bold mb-3">Apodo</label>
+                <input type="text" pInputText id="apodo" [(ngModel)]="jugador.apodo" required autofocus fluid />
+                <small class="text-red-500" *ngIf="submitted && !jugador.apodo">Requerido.</small>
+            </div>
+            <div>
+                <label for="pos_principal" class="block font-bold mb-3">Posición Principal</label>
+                <p-select 
+                    [options]="posiciones" 
+                    [(ngModel)]="jugador.pos_principal" 
+                    placeholder="Posicion"                      
+                    fluid
+                    required>
+                </p-select>
+                <small class="text-red-500" *ngIf="submitted && !jugador.pos_principal">Requerido.</small>
+            </div>
+            <div>
+                <label for="pos_secundaria" class="block font-bold mb-3">Posición Secundaria</label>
+                <p-select 
+                    [options]="posiciones" 
+                    [(ngModel)]="jugador.pos_secundaria" 
+                    placeholder="Posicion"                      
+                    fluid
+                    required>
+                </p-select>
+                <small class="text-red-500" *ngIf="submitted && !jugador.pos_secundaria">Requerido.</small>
+            </div>
+            <div>
+                <label for="pierna_habil" class="block font-bold mb-3">Pierna Hábil</label>
+                <p-select 
+                [options]="piernaHab" 
+                [(ngModel)]="jugador.pierna_habil" 
+                placeholder="Pierna Habil"                  
+                fluid
+                required>
+            </p-select>
+                <small class="text-red-500" *ngIf="submitted && !jugador.pierna_habil">Requerido.</small>
+            </div>
+            <div>
+                <label for="media" class="block font-bold mb-3">Media</label>
+                <p-inputnumber id="media" [(ngModel)]="jugador.media" required fluid [min] = "1" [max]="100"></p-inputnumber>
+                <small class="text-red-500" *ngIf="submitted && (jugador.media === null || jugador.media === undefined)">Requerido.</small>
+            </div>
+        </div>
+    </ng-template>
+    <ng-template #footer>
+        <p-button label="Cancel" icon="pi pi-times" text (click)="hideDialog()" />
+        <p-button label="Save" icon="pi pi-check" (click)="saveJugador()" />
+    </ng-template>
+</p-dialog>
+<p-dialog [(visible)]="estadisticasDialog" [style]="{ width: '450px'  }" header="Estadisticas" [modal]="true">
+    <ng-template #content>
+        <div class="flex flex-col gap-6">
+            <div>
+                <label for="partidosJugados" class="block font-bold mb-3">Partidos Jugados</label>
+                <input type="text" pInputText id="partidosJugados" [(ngModel)]="estadisticas.partidosJugados" fluid readonly />
+            </div>
+            <div>
+                <label for="partidosGanados" class="block font-bold mb-3">Partidos Ganados</label>
+                <input type="text" pInputText id="partidosGanados" [(ngModel)]="estadisticas.partidosGanados" fluid readonly/>
+            </div> 
+            <div>
+                <label for="goles" class="block font-bold mb-3">Goles</label>
+                <input type="text" pInputText id="goles" [(ngModel)]="estadisticas.goles" fluid readonly/>
+            </div>    
+            <div>
+                <label for="asistencias" class="block font-bold mb-3">Asistencias</label>
+                <input type="text" pInputText id="asistencias" [(ngModel)]="estadisticas.asistencias" fluid readonly/>
+            </div>    
+            <div>
+                <label for="atajadas" class="block font-bold mb-3">Atajadas</label>
+                <input type="text" pInputText id="atajadas" [(ngModel)]="estadisticas.atajadas" fluid readonly/>
+            </div>               
+        </div>
+    </ng-template>
+    <ng-template #footer>
+        <p-button label="Cancel" icon="pi pi-times" text (click)="hideDialog()" />
+    </ng-template>
+</p-dialog>
+
+<p-confirmdialog [style]="{ width: '450px' }" />

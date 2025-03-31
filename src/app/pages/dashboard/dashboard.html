@@ -1,0 +1,58 @@
+<div class="grid grid-cols-12 gap-8">
+    <div class="col-span-12 lg:col-span-6 xl:col-span-3">
+        <div class="card mb-0">
+            <div class="flex justify-between mb-4">
+                <div>
+                    <span class="block text-muted-color font-medium mb-4">Máximo Goleador</span>
+                    <p-avatar                                 
+                                shape="circle" size="large"
+                                [style]="{'border': '4px solid #1f2937', 'background-color': '#000000'}">
+                                <img [src]="maximoGoleador.imagen" 
+                                  (error)="maximoGoleador.imagen = 'assets/pngegg.png'" />
+                      </p-avatar>
+                    <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">
+                        {{ maximoGoleador.nombre || 'N/A' }} - {{ maximoGoleador.goles || 0 }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-span-12 lg:col-span-6 xl:col-span-3">
+        <div class="card mb-0">
+            <div class="flex justify-between mb-4">
+                <div>
+                    <span class="block text-muted-color font-medium mb-4">Máximo Asistidor</span>
+                    <p-avatar                                 
+                                shape="circle" size="large"
+                                [style]="{'border': '4px solid #1f2937', 'background-color': '#000000'}">
+                                <img [src]="maximoAsistidor.imagen" 
+                                  (error)="maximoAsistidor.imagen = 'assets/pngegg.png'" />
+                      </p-avatar>
+                    <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">
+                        {{ maximoAsistidor.nombre || 'N/A' }} - {{ maximoAsistidor.asistencias || 0 }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-span-12 lg:col-span-6 xl:col-span-3">
+        <div class="card mb-0">
+            <div class="flex justify-between mb-4">
+                <div>
+                    <span class="block text-muted-color font-medium mb-4">Máximo Atajador</span>
+                    <p-avatar                                 
+                                shape="circle" size="large"
+                                [style]="{'border': '4px solid #1f2937', 'background-color': '#000000'}">
+                                <img [src]="maximoAtajador.imagen" 
+                                  (error)="maximoAtajador.imagen = 'assets/pngegg.png'" />
+                      </p-avatar>
+                    <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">
+                        {{ maximoAtajador.nombre || 'N/A' }} - {{ maximoAtajador.atajadas || 0 }}
+                    </div>
+                </div>
+            </div>           
+        </div>
+    </div>
+</div>

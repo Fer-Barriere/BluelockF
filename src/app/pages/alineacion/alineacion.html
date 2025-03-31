@@ -1,0 +1,82 @@
+<p-toolbar styleClass="mb-6">
+    <ng-template #start>
+        <p-button (click)="confirm1($event)" label="Generar Alineacion" icon="pi pi-plus" severity="secondary" class="mr-2" [outlined]="true" />
+    </ng-template>
+</p-toolbar>
+<div class="grid grid-cols-12 gap-8">    
+    <div class="col-span-12 md:col-span-5">
+        <div class="card !mb-8">
+            <div class="col-9">
+                <h3 class="text-center bg-primary text-white p-2 border-round">Jugadores Inscritos</h3>
+                <p-table [value]="jugadores()" class="w-full" [(selection)]="selectedJugadores" dataKey="nombre">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th></th>
+                            <th>Jugador</th>
+                            <th>Posición Principal</th>
+                            <th>Posición Secundaria</th>
+                            <th>Lado</th>
+                            <th>Media</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-jugador>
+                        <tr [pSelectableRow]="jugador">
+                            <td>
+                                <p-tableCheckbox [value]="jugador"></p-tableCheckbox>
+                            </td>
+                            <td>{{ jugador.apodo }}</td>
+                            <td>{{ jugador.pos_principal }}</td>
+                            <td>{{ jugador.pos_secundaria }}</td>
+                            <td>{{ jugador.pierna_habil }}</td>
+                            <td>{{ jugador.media }}</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+    </div>
+    <div class="col-span-2 md:col-span-2 text-center mt-4">
+        <p-button icon="pi pi-arrow-right-arrow-left" (click)="moverJugadores()"
+            [disabled]="!selectedJugadores"></p-button>
+    </div>
+    <div class="col-span-12 md:col-span-5">
+        <div class="card !mb-8">
+            <div class="col-5">
+                <h3 class="text-center bg-primary text-white p-2 border-round">Jugadores Presentados</h3>
+                <p-table [value]="presentados" class="w-full">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th></th>
+                            <th>Jugador</th>
+                            <th>Posición Principal</th>
+                            <th>Posición Secundaria</th>
+                            <th>Lado</th>
+                            <th>Media</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-jugador>
+                        <tr>
+                            <td>
+                                <p-button icon="pi pi-times" class="p-button-rounded p-button-danger p-button-text"
+                                    (click)="removerJugador(jugador)"></p-button>
+                            </td>
+                            <td>{{ jugador.apodo }}</td>
+                            <td>{{ jugador.pos_principal }}</td>
+                            <td>{{ jugador.pos_secundaria }}</td>
+                            <td>{{ jugador.pierna_habil }}</td>
+                            <td>{{ jugador.media }}</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+
+    </div>
+    <p-toast />
+    <p-confirmdialog />
+</div>
+<!-- Modal con el componente hijo -->
+<p-dialog [(visible)]="mostrarModal" modal header="Formación del Partido">
+    <app-formacion *ngIf="mostrarModal" [idPartido]="idPartido"></app-formacion>
+  </p-dialog>
+<p-toast />

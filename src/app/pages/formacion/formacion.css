@@ -1,0 +1,7 @@
+.cancha {
+    background-size: 130%; /* Ajusta la imagen para cubrir todo el div */
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100%; /* O una altura específica, como 500px */
+    width: 100%;
+  }
