@@ -1,0 +1,937 @@
+// ******* JUGADORES *******
+// GET https: //bluelockb.onrender.com/api/jugadores
+    //Mando: Token
+    //Retorna: 
+    [
+        {
+            "estadisticas": {
+                "partidosJugados": 0,
+                "partidosGanados": 0,
+                "goles": 0,
+                "asistencias": 0,
+                "atajadas": 0
+            },
+            "_id": "67e791859e33c27121d66e08",
+            "nombre": "Ismael",
+            "apodo": "Isma",
+            "pos_principal": "LI",
+            "pos_secundaria": "POR",
+            "pierna_habil": "Derecha",
+            "media": 78,
+            "id": "67e791859e33c27121d66e08"
+        },
+        {
+            "estadisticas": {
+                "partidosJugados": 0,
+                "partidosGanados": 0,
+                "goles": 0,
+                "asistencias": 0,
+                "atajadas": 0
+            },
+            "_id": "67e791ab9e33c27121d66e0b",
+            "nombre": "Christian",
+            "apodo": "Xtian",
+            "pos_principal": "LD",
+            "pos_secundaria": "DFC",
+            "pierna_habil": "Derecha",
+            "media": 68,
+            "id": "67e791ab9e33c27121d66e0b"
+        }
+        //resto jugadores
+    ]
+// GET https://bluelockb.onrender.com/api/jugadores/Maximos
+    //Mando: Token
+    //Retorna:
+    [
+        {
+            "maxGoleador": {
+                "nombre": "Isma",
+                "goles": 0,
+                "imagen": "assets/67e791859e33c27121d66e08.png"
+            },
+            "maxAsistente": {
+                "nombre": "Isma",
+                "asistencias": 0,
+                "imagen": "assets/67e791859e33c27121d66e08.png"
+            },
+            "maxAtajadas": {
+                "nombre": "Isma",
+                "atajadas": 0,
+                "imagen": "assets/67e791859e33c27121d66e08.png"
+            }
+        }
+    ]
+// PUT https://bluelockb.onrender.com/api/jugadores/:id  67e791859e33c27121d66e08
+    //Mando: Token + id + body
+    [
+        {
+            "estadisticas": {
+                "partidosJugados": 0,
+                "partidosGanados": 0,
+                "goles": 0,
+                "asistencias": 0,
+                "atajadas": 0
+            },
+            "nombre": "Ismael",
+            "apodo": "Isma",
+            "pos_principal": "LI",
+            "pos_secundaria": "POR",
+            "pierna_habil": "Derecha",
+            "media": 78,
+            "id": "67e791859e33c27121d66e08"
+        }
+    ]
+    //Retorna:
+    [
+        {
+            "estadisticas": {
+                "partidosJugados": 0,
+                "partidosGanados": 0,
+                "goles": 0,
+                "asistencias": 0,
+                "atajadas": 0
+            },
+            "nombre": "Ismael",
+            "apodo": "Isma",
+            "pos_principal": "LI",
+            "pos_secundaria": "POR",
+            "pierna_habil": "Derecha",
+            "media": 78,
+            "id": "67e791859e33c27121d66e08"
+        }
+    ]
+
+// DELETE https://bluelockb.onrender.com/api/jugadores/:id 67ea3c4b07caff650991cbfd
+    //Mando: Token + id 
+    //Retorna: 
+    [
+        {
+            "mensaje": "Jugador eliminado correctamente",            
+        }
+    ]
+
+// POST https://bluelockb.onrender.com/api/jugadores/
+    //Mando: Token + body
+    [
+        {
+            "nombre": "Jugador10",
+            "apodo": "Jugador10",
+            "pos_principal": "LI",
+            "pos_secundaria": "POR",
+            "pierna_habil": "Derecha",
+            "media": 78
+        }
+    ]
+    //Retorna: 
+    [
+        {
+            "nombre": "Jugador10",
+            "apodo": "Jugador10",
+            "pos_principal": "LI",
+            "pos_secundaria": "POR",
+            "pierna_habil": "Derecha",
+            "media": 78,
+            "estadisticas": {
+                "partidosJugados": 0,
+                "partidosGanados": 0,
+                "goles": 0,
+                "asistencias": 0,
+                "atajadas": 0
+            },
+            "id": "67eaba4a19b31f95802965fc"
+        }
+    ]
+
+// ******* PARTIDOS *******
+
+// PUT https://bluelockb.onrender.com/api/partidos/actualizar-partido/:id 67ea30a044697c22e828b15b
+    //Mando: Token + id + body
+    [
+        {
+            "marcador": {
+                "equipoBlanco": 0,
+                "equipoNegro": 2
+            },
+            "highlights": [
+                {
+                    "jugador": "67e791dc9e33c27121d66e11",
+                    "equipo": "Blanco",
+                    "goles": 0,
+                    "asistencias": 2,
+                    "atajadas": 0
+                },
+                {
+                    "jugador": "67e7928e9e33c27121d66e1d",
+                    "equipo": "Negro",
+                    "goles": 2,
+                    "asistencias": 1,
+                    "atajadas": 1
+                }
+            ],
+            "estado": "Abierto"
+        }
+    ]
+    //Retorna:
+    [
+        {
+            "equipoBlanco": {
+                "jugadores": [
+                    {
+                        "jugador": "67e792639e33c27121d66e1a",
+                        "media": 70,
+                        "posicionUsada": "POR",
+                        "_id": "67ea30a044697c22e828b15c"
+                    },
+                    {
+                        "jugador": "67e792189e33c27121d66e14",
+                        "media": 82,
+                        "posicionUsada": "DFC",
+                        "_id": "67ea30a044697c22e828b15d"
+                    }
+                    ///....
+                ],
+                "mediaTotal": 73
+            },
+            "equipoNegro": {
+                "jugadores": [
+                    {
+                        "jugador": "67e79af1047a5b450d2fc241",
+                        "media": 66,
+                        "posicionUsada": "POR",
+                        "_id": "67ea30a044697c22e828b162"
+                    },
+                    {
+                        "jugador": "67e791c19e33c27121d66e0e",
+                        "media": 79,
+                        "posicionUsada": "DFC",
+                        "_id": "67ea30a044697c22e828b163"
+                    }
+                    /// ....
+                ],
+                "mediaTotal": 73
+            },
+            "marcador": {
+                "equipoBlanco": 0,
+                "equipoNegro": 2
+            },
+            "_id": "67ea30a044697c22e828b15b",
+            "suplentes": [
+                {
+                    "jugador": "67e791ab9e33c27121d66e0b",
+                    "media": 68,
+                    "equipo": "Blanco",
+                    "_id": "67ea30a044697c22e828b168"
+                },
+                {
+                    "jugador": "67e792f59e33c27121d66e26",
+                    "media": 68,
+                    "equipo": "Negro",
+                    "_id": "67ea30a044697c22e828b169"
+                }
+            ],
+            "highlights": [
+                {
+                    "jugador": "67e791dc9e33c27121d66e11",
+                    "equipo": "Blanco",
+                    "goles": 0,
+                    "asistencias": 2,
+                    "atajadas": 0,
+                    "_id": "67eac8ff18da756d8d4ce906"
+                },
+                {
+                    "jugador": "67e7928e9e33c27121d66e1d",
+                    "equipo": "Negro",
+                    "goles": 2,
+                    "asistencias": 0,
+                    "atajadas": 1,
+                    "_id": "67eac8ff18da756d8d4ce907"
+                }
+            ],
+            "estado": "Abierto",
+            "fecha": "2025-03-31T06:05:20.995Z",
+        }
+    ]
+
+// POST https://bluelockb.onrender.com/api/partidos/generar
+    //Mando: token + body
+    [
+        {
+            "ids": [
+               "67e791859e33c27121d66e08",
+               "67e791ab9e33c27121d66e0b",
+               "67e791c19e33c27121d66e0e",
+               "67e791dc9e33c27121d66e11",
+               "67e792189e33c27121d66e14",
+               "67e7924a9e33c27121d66e17",
+               "67e792639e33c27121d66e1a",
+               "67e7928e9e33c27121d66e1d",
+               "67e792ab9e33c27121d66e20",
+               "67e792ca9e33c27121d66e23",
+               "67e792f59e33c27121d66e26",
+               "67e793139e33c27121d66e29",
+               "67e79adc047a5b450d2fc23e",
+               "67e79af1047a5b450d2fc241"
+       ]
+       }
+    ]
+    //Retorna: 
+    [
+        {
+            "equipoBlanco": {
+                "jugadores": [
+                    {
+                        "jugador": "67e792639e33c27121d66e1a",
+                        "media": 70,
+                        "posicionUsada": "POR",
+                        "_id": "67eac9b918da756d8d4ce91b"
+                    },
+                    {
+                        "jugador": "67e792189e33c27121d66e14",
+                        "media": 82,
+                        "posicionUsada": "DFC",
+                        "_id": "67eac9b918da756d8d4ce91c"
+                    }
+                    //// .....
+                ],
+                "mediaTotal": 73
+            },
+            "equipoNegro": {
+                "jugadores": [
+                    {
+                        "jugador": "67e79af1047a5b450d2fc241",
+                        "media": 66,
+                        "posicionUsada": "POR",
+                        "_id": "67eac9b918da756d8d4ce921"
+                    },
+                    {
+                        "jugador": "67e791c19e33c27121d66e0e",
+                        "media": 79,
+                        "posicionUsada": "DFC",
+                        "_id": "67eac9b918da756d8d4ce922"
+                    }
+                    /// .....
+                ],
+                "mediaTotal": 73
+            },
+            "suplentes": [
+                {
+                    "jugador": "67e791ab9e33c27121d66e0b",
+                    "media": 68,
+                    "equipo": "Blanco",
+                    "_id": "67eac9b918da756d8d4ce927"
+                },
+                {
+                    "jugador": "67e792f59e33c27121d66e26",
+                    "media": 68,
+                    "equipo": "Negro",
+                    "_id": "67eac9b918da756d8d4ce928"
+                }
+            ],
+            "marcador": {
+                "equipoBlanco": 0,
+                "equipoNegro": 0
+            },
+            "highlights": [],
+            "estado": "Abierto",
+            "fecha": "2025-03-31T16:58:33.725Z",
+            "id": "67eac9b918da756d8d4ce91a"
+        }
+    ]
+
+// GET https://bluelockb.onrender.com/api/partidos/listar-partidos 
+    //Mando: Token
+    //Recibo:
+    [
+        [
+            {
+                "equipoBlanco": {
+                    "jugadores": [
+                        {
+                            "jugador": {
+                                "estadisticas": {
+                                    "partidosJugados": 0,
+                                    "partidosGanados": 0,
+                                    "goles": 0,
+                                    "asistencias": 0,
+                                    "atajadas": 0
+                                },
+                                "_id": "67e792639e33c27121d66e1a",
+                                "nombre": "Alberto",
+                                "apodo": "Ruano",
+                                "pos_principal": "POR",
+                                "pos_secundaria": "DFC",
+                                "pierna_habil": "Derecha",
+                                "media": 70,
+                                "id": "67e792639e33c27121d66e1a"
+                            },
+                            "media": 70,
+                            "posicionUsada": "POR",
+                            "_id": "67eac9b918da756d8d4ce91b"
+                        },
+                        {
+                            "jugador": {
+                                "estadisticas": {
+                                    "partidosJugados": 0,
+                                    "partidosGanados": 0,
+                                    "goles": 0,
+                                    "asistencias": 0,
+                                    "atajadas": 0
+                                },
+                                "_id": "67e792189e33c27121d66e14",
+                                "nombre": "Jonathan",
+                                "apodo": "Jon",
+                                "pos_principal": "DFC",
+                                "pos_secundaria": "DC",
+                                "pierna_habil": "Derecha",
+                                "media": 82,
+                                "id": "67e792189e33c27121d66e14"
+                            },
+                            "media": 82,
+                            "posicionUsada": "DFC",
+                            "_id": "67eac9b918da756d8d4ce91c"
+                        }
+                        /// ....
+                    ],
+                    "mediaTotal": 73
+                },
+                "equipoNegro": {
+                    "jugadores": [
+                        {
+                            "jugador": {
+                                "estadisticas": {
+                                    "partidosJugados": 0,
+                                    "partidosGanados": 0,
+                                    "goles": 0,
+                                    "asistencias": 0,
+                                    "atajadas": 0
+                                },
+                                "_id": "67e79af1047a5b450d2fc241",
+                                "nombre": "Chevez",
+                                "apodo": "Chevez",
+                                "pos_principal": "POR",
+                                "pos_secundaria": "DFC",
+                                "pierna_habil": "Derecha",
+                                "media": 66,
+                                "id": "67e79af1047a5b450d2fc241"
+                            },
+                            "media": 66,
+                            "posicionUsada": "POR",
+                            "_id": "67eac9b918da756d8d4ce921"
+                        },
+                        {
+                            "jugador": {
+                                "estadisticas": {
+                                    "partidosJugados": 0,
+                                    "partidosGanados": 0,
+                                    "goles": 0,
+                                    "asistencias": 0,
+                                    "atajadas": 0
+                                },
+                                "_id": "67e791c19e33c27121d66e0e",
+                                "nombre": "Quevedo",
+                                "apodo": "Quevedo",
+                                "pos_principal": "DFC",
+                                "pos_secundaria": "POR",
+                                "pierna_habil": "Derecha",
+                                "media": 79,
+                                "id": "67e791c19e33c27121d66e0e"
+                            },
+                            "media": 79,
+                            "posicionUsada": "DFC",
+                            "_id": "67eac9b918da756d8d4ce922"
+                        }
+                        /// ....
+                    ],
+                    "mediaTotal": 73
+                },
+                "marcador": {
+                    "equipoBlanco": 0,
+                    "equipoNegro": 0
+                },
+                "_id": "67eac9b918da756d8d4ce91a",
+                "suplentes": [
+                    {
+                        "jugador": {
+                            "estadisticas": {
+                                "partidosJugados": 0,
+                                "partidosGanados": 0,
+                                "goles": 0,
+                                "asistencias": 0,
+                                "atajadas": 0
+                            },
+                            "_id": "67e791ab9e33c27121d66e0b",
+                            "nombre": "Christian",
+                            "apodo": "Xtian",
+                            "pos_principal": "LD",
+                            "pos_secundaria": "DFC",
+                            "pierna_habil": "Derecha",
+                            "media": 68,
+                            "id": "67e791ab9e33c27121d66e0b"
+                        },
+                        "media": 68,
+                        "equipo": "Blanco",
+                        "_id": "67eac9b918da756d8d4ce927"
+                    },
+                    {
+                        "jugador": {
+                            "estadisticas": {
+                                "partidosJugados": 0,
+                                "partidosGanados": 0,
+                                "goles": 0,
+                                "asistencias": 0,
+                                "atajadas": 0
+                            },
+                            "_id": "67e792f59e33c27121d66e26",
+                            "nombre": "Ivan",
+                            "apodo": "Spidey",
+                            "pos_principal": "DFC",
+                            "pos_secundaria": "DC",
+                            "pierna_habil": "Derecha",
+                            "media": 68,
+                            "id": "67e792f59e33c27121d66e26"
+                        },
+                        "media": 68,
+                        "equipo": "Negro",
+                        "_id": "67eac9b918da756d8d4ce928"
+                    }
+                ],
+                "highlights": [],
+                "estado": "Abierto",
+                "fecha": "2025-03-31T16:58:33.725Z",
+                "__v": 0,
+                "id": "67eac9b918da756d8d4ce91a"
+            },
+            {
+                "equipoBlanco": {
+                    "jugadores": [
+                        {
+                            "jugador": {
+                                "estadisticas": {
+                                    "partidosJugados": 0,
+                                    "partidosGanados": 0,
+                                    "goles": 0,
+                                    "asistencias": 0,
+                                    "atajadas": 0
+                                },
+                                "_id": "67e792639e33c27121d66e1a",
+                                "nombre": "Alberto",
+                                "apodo": "Ruano",
+                                "pos_principal": "POR",
+                                "pos_secundaria": "DFC",
+                                "pierna_habil": "Derecha",
+                                "media": 70,
+                                "id": "67e792639e33c27121d66e1a"
+                            },
+                            "media": 70,
+                            "posicionUsada": "POR",
+                            "_id": "67ea30a044697c22e828b15c"
+                        },
+                        {
+                            "jugador": {
+                                "estadisticas": {
+                                    "partidosJugados": 0,
+                                    "partidosGanados": 0,
+                                    "goles": 0,
+                                    "asistencias": 0,
+                                    "atajadas": 0
+                                },
+                                "_id": "67e792189e33c27121d66e14",
+                                "nombre": "Jonathan",
+                                "apodo": "Jon",
+                                "pos_principal": "DFC",
+                                "pos_secundaria": "DC",
+                                "pierna_habil": "Derecha",
+                                "media": 82,
+                                "id": "67e792189e33c27121d66e14"
+                            },
+                            "media": 82,
+                            "posicionUsada": "DFC",
+                            "_id": "67ea30a044697c22e828b15d"
+                        }
+                        //// ....
+                    ],
+                    "mediaTotal": 73
+                },
+                "equipoNegro": {
+                    "jugadores": [
+                        {
+                            "jugador": {
+                                "estadisticas": {
+                                    "partidosJugados": 0,
+                                    "partidosGanados": 0,
+                                    "goles": 0,
+                                    "asistencias": 0,
+                                    "atajadas": 0
+                                },
+                                "_id": "67e79af1047a5b450d2fc241",
+                                "nombre": "Chevez",
+                                "apodo": "Chevez",
+                                "pos_principal": "POR",
+                                "pos_secundaria": "DFC",
+                                "pierna_habil": "Derecha",
+                                "media": 66,
+                                "id": "67e79af1047a5b450d2fc241"
+                            },
+                            "media": 66,
+                            "posicionUsada": "POR",
+                            "_id": "67ea30a044697c22e828b162"
+                        },
+                        {
+                            "jugador": {
+                                "estadisticas": {
+                                    "partidosJugados": 0,
+                                    "partidosGanados": 0,
+                                    "goles": 0,
+                                    "asistencias": 0,
+                                    "atajadas": 0
+                                },
+                                "_id": "67e791c19e33c27121d66e0e",
+                                "nombre": "Quevedo",
+                                "apodo": "Quevedo",
+                                "pos_principal": "DFC",
+                                "pos_secundaria": "POR",
+                                "pierna_habil": "Derecha",
+                                "media": 79,
+                                "id": "67e791c19e33c27121d66e0e"
+                            },
+                            "media": 79,
+                            "posicionUsada": "DFC",
+                            "_id": "67ea30a044697c22e828b163"
+                        }
+                        //// ......
+                    ],
+                    "mediaTotal": 73
+                },
+                "marcador": {
+                    "equipoBlanco": 0,
+                    "equipoNegro": 2
+                },
+                "_id": "67ea30a044697c22e828b15b",
+                "suplentes": [
+                    {
+                        "jugador": {
+                            "estadisticas": {
+                                "partidosJugados": 0,
+                                "partidosGanados": 0,
+                                "goles": 0,
+                                "asistencias": 0,
+                                "atajadas": 0
+                            },
+                            "_id": "67e791ab9e33c27121d66e0b",
+                            "nombre": "Christian",
+                            "apodo": "Xtian",
+                            "pos_principal": "LD",
+                            "pos_secundaria": "DFC",
+                            "pierna_habil": "Derecha",
+                            "media": 68,
+                            "id": "67e791ab9e33c27121d66e0b"
+                        },
+                        "media": 68,
+                        "equipo": "Blanco",
+                        "_id": "67ea30a044697c22e828b168"
+                    },
+                    {
+                        "jugador": {
+                            "estadisticas": {
+                                "partidosJugados": 0,
+                                "partidosGanados": 0,
+                                "goles": 0,
+                                "asistencias": 0,
+                                "atajadas": 0
+                            },
+                            "_id": "67e792f59e33c27121d66e26",
+                            "nombre": "Ivan",
+                            "apodo": "Spidey",
+                            "pos_principal": "DFC",
+                            "pos_secundaria": "DC",
+                            "pierna_habil": "Derecha",
+                            "media": 68,
+                            "id": "67e792f59e33c27121d66e26"
+                        },
+                        "media": 68,
+                        "equipo": "Negro",
+                        "_id": "67ea30a044697c22e828b169"
+                    }
+                ],
+                "highlights": [
+                    {
+                        "jugador": {
+                            "estadisticas": {
+                                "partidosJugados": 0,
+                                "partidosGanados": 0,
+                                "goles": 0,
+                                "asistencias": 0,
+                                "atajadas": 0
+                            },
+                            "_id": "67e791dc9e33c27121d66e11",
+                            "nombre": "William",
+                            "apodo": "War",
+                            "pos_principal": "DC",
+                            "pos_secundaria": "DFC",
+                            "pierna_habil": "Derecha",
+                            "media": 69,
+                            "id": "67e791dc9e33c27121d66e11"
+                        },
+                        "equipo": "Blanco",
+                        "goles": 0,
+                        "asistencias": 2,
+                        "atajadas": 0,
+                        "_id": "67eac8ff18da756d8d4ce906"
+                    },
+                    {
+                        "jugador": {
+                            "estadisticas": {
+                                "partidosJugados": 0,
+                                "partidosGanados": 0,
+                                "goles": 0,
+                                "asistencias": 0,
+                                "atajadas": 0
+                            },
+                            "_id": "67e7928e9e33c27121d66e1d",
+                            "nombre": "Espinal",
+                            "apodo": "Spinal",
+                            "pos_principal": "MCO",
+                            "pos_secundaria": "DFC",
+                            "pierna_habil": "Izquierda",
+                            "media": 87,
+                            "id": "67e7928e9e33c27121d66e1d"
+                        },
+                        "equipo": "Negro",
+                        "goles": 2,
+                        "asistencias": 0,
+                        "atajadas": 1,
+                        "_id": "67eac8ff18da756d8d4ce907"
+                    }
+                ],
+                "estado": "Abierto",
+                "fecha": "2025-03-31T06:05:20.995Z",
+                "__v": 0,
+                "id": "67ea30a044697c22e828b15b"
+            }
+            /// .....
+        ]
+    ]
+
+// Buscar por ID
+// GET https://bluelockb.onrender.com/api/partidos/:id 67ea30a044697c22e828b15b
+    //Mando: Token + id
+    //Recibo:
+    [
+        {
+            "equipoBlanco": {
+                "jugadores": [
+                    {
+                        "jugador": {
+                            "estadisticas": {
+                                "partidosJugados": 0,
+                                "partidosGanados": 0,
+                                "goles": 0,
+                                "asistencias": 0,
+                                "atajadas": 0
+                            },
+                            "_id": "67e792639e33c27121d66e1a",
+                            "nombre": "Alberto",
+                            "apodo": "Ruano",
+                            "pos_principal": "POR",
+                            "pos_secundaria": "DFC",
+                            "pierna_habil": "Derecha",
+                            "media": 70,
+                            "id": "67e792639e33c27121d66e1a"
+                        },
+                        "media": 70,
+                        "posicionUsada": "POR",
+                        "_id": "67ea30a044697c22e828b15c"
+                    },
+                    {
+                        "jugador": {
+                            "estadisticas": {
+                                "partidosJugados": 0,
+                                "partidosGanados": 0,
+                                "goles": 0,
+                                "asistencias": 0,
+                                "atajadas": 0
+                            },
+                            "_id": "67e792189e33c27121d66e14",
+                            "nombre": "Jonathan",
+                            "apodo": "Jon",
+                            "pos_principal": "DFC",
+                            "pos_secundaria": "DC",
+                            "pierna_habil": "Derecha",
+                            "media": 82,
+                            "id": "67e792189e33c27121d66e14"
+                        },
+                        "media": 82,
+                        "posicionUsada": "DFC",
+                        "_id": "67ea30a044697c22e828b15d"
+                    }
+                    
+                    /// .....
+                ],
+                "mediaTotal": 73
+            },
+            "equipoNegro": {
+                "jugadores": [
+                    {
+                        "jugador": {
+                            "estadisticas": {
+                                "partidosJugados": 0,
+                                "partidosGanados": 0,
+                                "goles": 0,
+                                "asistencias": 0,
+                                "atajadas": 0
+                            },
+                            "_id": "67e79af1047a5b450d2fc241",
+                            "nombre": "Chevez",
+                            "apodo": "Chevez",
+                            "pos_principal": "POR",
+                            "pos_secundaria": "DFC",
+                            "pierna_habil": "Derecha",
+                            "media": 66,
+                            "id": "67e79af1047a5b450d2fc241"
+                        },
+                        "media": 66,
+                        "posicionUsada": "POR",
+                        "_id": "67ea30a044697c22e828b162"
+                    },
+                    {
+                        "jugador": {
+                            "estadisticas": {
+                                "partidosJugados": 0,
+                                "partidosGanados": 0,
+                                "goles": 0,
+                                "asistencias": 0,
+                                "atajadas": 0
+                            },
+                            "_id": "67e791c19e33c27121d66e0e",
+                            "nombre": "Quevedo",
+                            "apodo": "Quevedo",
+                            "pos_principal": "DFC",
+                            "pos_secundaria": "POR",
+                            "pierna_habil": "Derecha",
+                            "media": 79,
+                            "id": "67e791c19e33c27121d66e0e"
+                        },
+                        "media": 79,
+                        "posicionUsada": "DFC",
+                        "_id": "67ea30a044697c22e828b163"
+                    }
+                    
+                    /// ......
+                ],
+                "mediaTotal": 73
+            },
+            "marcador": {
+                "equipoBlanco": 0,
+                "equipoNegro": 2
+            },
+            "_id": "67ea30a044697c22e828b15b",
+            "suplentes": [
+                {
+                    "jugador": {
+                        "estadisticas": {
+                            "partidosJugados": 0,
+                            "partidosGanados": 0,
+                            "goles": 0,
+                            "asistencias": 0,
+                            "atajadas": 0
+                        },
+                        "_id": "67e791ab9e33c27121d66e0b",
+                        "nombre": "Christian",
+                        "apodo": "Xtian",
+                        "pos_principal": "LD",
+                        "pos_secundaria": "DFC",
+                        "pierna_habil": "Derecha",
+                        "media": 68,
+                        "id": "67e791ab9e33c27121d66e0b"
+                    },
+                    "media": 68,
+                    "equipo": "Blanco",
+                    "_id": "67ea30a044697c22e828b168"
+                },
+                {
+                    "jugador": {
+                        "estadisticas": {
+                            "partidosJugados": 0,
+                            "partidosGanados": 0,
+                            "goles": 0,
+                            "asistencias": 0,
+                            "atajadas": 0
+                        },
+                        "_id": "67e792f59e33c27121d66e26",
+                        "nombre": "Ivan",
+                        "apodo": "Spidey",
+                        "pos_principal": "DFC",
+                        "pos_secundaria": "DC",
+                        "pierna_habil": "Derecha",
+                        "media": 68,
+                        "id": "67e792f59e33c27121d66e26"
+                    },
+                    "media": 68,
+                    "equipo": "Negro",
+                    "_id": "67ea30a044697c22e828b169"
+                }
+            ],
+            "highlights": [
+                {
+                    "jugador": {
+                        "estadisticas": {
+                            "partidosJugados": 0,
+                            "partidosGanados": 0,
+                            "goles": 0,
+                            "asistencias": 0,
+                            "atajadas": 0
+                        },
+                        "_id": "67e791dc9e33c27121d66e11",
+                        "nombre": "William",
+                        "apodo": "War",
+                        "pos_principal": "DC",
+                        "pos_secundaria": "DFC",
+                        "pierna_habil": "Derecha",
+                        "media": 69,
+                        "id": "67e791dc9e33c27121d66e11"
+                    },
+                    "equipo": "Blanco",
+                    "goles": 0,
+                    "asistencias": 2,
+                    "atajadas": 0,
+                    "_id": "67eac8ff18da756d8d4ce906"
+                },
+                {
+                    "jugador": {
+                        "estadisticas": {
+                            "partidosJugados": 0,
+                            "partidosGanados": 0,
+                            "goles": 0,
+                            "asistencias": 0,
+                            "atajadas": 0
+                        },
+                        "_id": "67e7928e9e33c27121d66e1d",
+                        "nombre": "Espinal",
+                        "apodo": "Spinal",
+                        "pos_principal": "MCO",
+                        "pos_secundaria": "DFC",
+                        "pierna_habil": "Izquierda",
+                        "media": 87,
+                        "id": "67e7928e9e33c27121d66e1d"
+                    },
+                    "equipo": "Negro",
+                    "goles": 2,
+                    "asistencias": 0,
+                    "atajadas": 1,
+                    "_id": "67eac8ff18da756d8d4ce907"
+                }
+            ],
+            "estado": "Abierto",
+            "fecha": "2025-03-31T06:05:20.995Z",
+            "__v": 0,
+            "id": "67ea30a044697c22e828b15b"
+        }
+    ]
+
+//Eliminar
+// DELETE https://bluelockb.onrender.com/api/partidos/eliminarPartido/:id 67ea30a044697c22e828b15b
+    //Mando: Token + id
+    //Recibo: 
+    [
+        {"message":"Partido eliminado correctamente"}
+    ]

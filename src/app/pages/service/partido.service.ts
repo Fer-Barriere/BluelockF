@@ -52,8 +52,8 @@ export class PartidoService {
       this.partidos.set(data); // Se actualiza el signal con la nueva información
     });
   }
-  buscarPartidoByID(partidoId: string): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/${partidoId}`);
+  buscarPartidoByID(partidoId: string): Observable<Partido> {
+    return this.http.get<Partido>(`${this.apiUrl}/${partidoId}`);
   }
   agregarPartido(jugadores: string[]): Observable<Partido> {
     // Enviamos el arreglo de jugadores como parte del cuerpo de la solicitud

@@ -11,9 +11,9 @@ import { HttpClient } from '@angular/common/http';
 import { ToastModule } from 'primeng/toast';
 import { PartidoService } from '../service/partido.service';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { Component, OnInit, signal, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { Table, TableModule } from 'primeng/table';
+import { TableModule } from 'primeng/table';
 import { Formacion } from '../formacion/formacion';
 import { SelectModule } from 'primeng/select';
 
@@ -116,8 +116,9 @@ export class PartidosComponent {
             this.partidos = data.map((partido: any) => ({
                 ...partido,
                 id: partido._id // Asignar _id a id
-            }));
+            }));            
         });
+        
     }
     editarPartido(partido: Partido) {
         this.selectedMatch = { ...partido, highlights: [...partido.highlights] };
@@ -143,7 +144,7 @@ export class PartidosComponent {
             equipoNegro: golesNegro
         };
     }
-    eliminarGoleador(id: string) {
+    eliminarHighlight(id: string) {
         // Elimina el goleador del equipo correspondiente por su id
         this.selectedMatch.highlights = this.selectedMatch.highlights.filter((g) => g.jugador.id !== id);
         this.actualizarMarcador();
@@ -247,7 +248,6 @@ export class PartidosComponent {
                 highlights,
                 estado
             };
-
             // Llamar a la API para guardar el partido (suponiendo que la URL de la API sea correcta)
             this.http.put(`https://bluelockb.onrender.com/api/partidos/actualizar-partido/${this.selectedMatch.id}`, partidoAEnviar).subscribe(
                 (response) => {
