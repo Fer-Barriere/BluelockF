@@ -27,7 +27,7 @@ export interface Jugador {
   providedIn: 'root'
 })
 export class JugadorService {
-  private apiUrl = 'http://localhost:5000/api/jugadores'; // API de prueba
+  private apiUrl = 'https://bluelockb.onrender.com/api/jugadores';
 
   // Signal para almacenar los jugadores de forma reactiva
   jugadores = signal<Jugador[]>([]);

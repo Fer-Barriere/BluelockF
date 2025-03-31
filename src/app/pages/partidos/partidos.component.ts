@@ -112,7 +112,7 @@ export class PartidosComponent {
     }
 
     cargarPartidos() {
-        this.http.get<Partido[]>('http://localhost:5000/api/partidos/listar-partidos').subscribe((data) => {
+        this.http.get<Partido[]>('https://bluelockb.onrender.com/api/partidos/listar-partidos').subscribe((data) => {
             this.partidos = data.map((partido: any) => ({
                 ...partido,
                 id: partido._id // Asignar _id a id
@@ -249,7 +249,7 @@ export class PartidosComponent {
             };
 
             // Llamar a la API para guardar el partido (suponiendo que la URL de la API sea correcta)
-            this.http.put(`http://localhost:5000/api/partidos/actualizar-partido/${this.selectedMatch.id}`, partidoAEnviar).subscribe(
+            this.http.put(`https://bluelockb.onrender.com/api/partidos/actualizar-partido/${this.selectedMatch.id}`, partidoAEnviar).subscribe(
                 (response) => {
                     this.modalVisible = false;
                     this.cargarPartidos(); // Volver a cargar la lista de partidos

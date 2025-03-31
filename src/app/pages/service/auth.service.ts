@@ -8,7 +8,7 @@ import { jwtDecode } from 'jwt-decode';
     providedIn: 'root'
 })
 export class AuthService {
-    private apiUrl = 'http://localhost:5000/api/usuarios';
+    private apiUrl = 'https://bluelockb.onrender.com/api/usuarios';
 
     constructor(
         private http: HttpClient,
