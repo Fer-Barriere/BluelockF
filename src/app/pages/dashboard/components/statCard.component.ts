@@ -6,16 +6,17 @@ import { CardModule } from 'primeng/card';
   imports: [DividerModule, CardModule],
   template: `
     <p-card styleClass="hover:bg-gray-100 dark:hover:bg-gray-700 ">
-      <div class="grid grid-cols-3 p-3 rounded-lg">
+      <div class="grid grid-cols-3 rounded-lg">
         <!-- Imagen -->
           <img
-            class="w-16 h-16 sm:w-24 sm:h-24 md:w-36 md:h-36 bg-black rounded-full"
+            class="w-20 h-20 md:w-24 md:h-24 bg-black rounded-full"
             [src]="imageUrl"
+            (error)="imageUrl = '/assets/player-avatar.jpg'"
             alt="{{ player }}-img"
           />
         <!-- Segunda seccion -->
-        <div class="flex flex-col items-center justify-center">
-          <p class="text-base text-justify lg:text-left font-bold text-gray-900 dark:text-white">
+        <div class="flex flex-col  justify-center">
+          <p class="text-base text-left font-bold text-gray-900 dark:text-white">
             {{ title }}
           </p>
           <p class="text-3xl font-bold text-gray-900 dark:text-white">
@@ -25,7 +26,7 @@ import { CardModule } from 'primeng/card';
         <!-- estadistica -->
         <div class="flex items-center justify-evenly">
           <p-divider layout="vertical" />
-          <p class="text-7xl font-bold ">
+          <p class="text-5xl md:text-6xl xl:text-7xl font-bold ">
             {{ stat }}
           </p>
         </div>
@@ -35,7 +36,7 @@ import { CardModule } from 'primeng/card';
 })
 export class StatCardComponent {
   @Input() title = "Maximo goleador";
-  @Input() imageUrl = '/assets/player-avatar.png';
+  @Input() imageUrl!: string;
   @Input() player = "Espinal";
   @Input() stat!: number; // Default value for stat
 }

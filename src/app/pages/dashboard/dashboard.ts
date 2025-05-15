@@ -1,48 +1,50 @@
 import { Component, OnInit } from '@angular/core';
 import { AvatarModule } from 'primeng/avatar';
-import { JugadorService } from '../service/jugador.service';
+import { JugadorService, MaxStatCard } from '../service/jugador.service';
 import { LastMatchCardComponent } from './components/lastMatchCard.component';
 import { LineUpCardComponent } from './components/lineUp.component';
 import { StatCardComponent } from './components/statCard.component';
-// <div class="grid grid-cols-12 gap-8">
-//             <app-stats-widget class="contents" />
-//             <div class="col-span-12 xl:col-span-6">
-//                 <app-recent-sales-widget />
-//             </div>
-//         </div>
+import { PartidoService } from '../service/partido.service';
+import { LastMatchInfo } from '../../../models/lastMatch.model';
+import { DividerModule } from 'primeng/divider';
 @Component({
     selector: 'app-dashboard',
-    imports: [AvatarModule, LastMatchCardComponent, LineUpCardComponent, StatCardComponent],
+    imports: [AvatarModule, LastMatchCardComponent, LineUpCardComponent, StatCardComponent, DividerModule],
     templateUrl: `./dashboard.html`
 })
 export class Dashboard implements OnInit {
+    statsData!: MaxStatCard[];
+    ultimoPartido!: LastMatchInfo;
 
-    maximoGoleador: any = {};
-    maximoAsistidor: any = {};
-    maximoAtajador: any = {};
-
-    statsData: {title: string, imageUrl: string, player: string, stat: number}[] = [
-      {
-        title: "Maximo goleador",
-        imageUrl: '/assets/player-avatar.png',
-        player: "Espinal",
-        stat: 10,
-      },
-      {
-        title: "Maximo asistidor",
-        imageUrl: '/assets/player-avatar.png',
-        player: "Darwin",
-        stat: 49,
-      },
-    ];
-
-    constructor(private jugadorService: JugadorService) {}
+    constructor(
+        private jugadorService: JugadorService,
+        public partidoService: PartidoService
+    ) {}
 
     ngOnInit(): void {
-        this.jugadorService.obtenerMaximos().subscribe(data => {
-            this.maximoGoleador = data.maxGoleador;
-            this.maximoAsistidor = data.maxAsistente;
-            this.maximoAtajador = data.maxAtajadas;
-          });
+        this.getMaximos();
+        this.getUltimoPartido();
+    }
+
+    getMaximos() {
+        this.jugadorService.obtenerMaximos().subscribe({
+            next: (data) => {
+                this.statsData = data;
+            },
+            error: (error) => {
+                console.error('Error al obtener los máximos:', error);
+            }
+        });
+    }
+
+    getUltimoPartido() {
+      this.partidoService.obtenerUltimoPartido().subscribe({
+          next: (data) => {
+            this.ultimoPartido = data;
+          },
+          error: (error) => {
+            console.log('Error al obtener el último partido:', error);
+          }
+        });
     }
 }

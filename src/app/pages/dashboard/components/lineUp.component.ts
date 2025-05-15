@@ -13,7 +13,7 @@ import { CardModule } from 'primeng/card';
       </h1>
       <!-- campo -->
       <div class=" relative font-normal text-gray-700 dark:text-gray-400">
-        <img src="/assets/field.png" class="w-full h-full object-fit max-h-[35em]" alt="">
+        <img src="/assets/field.webp" class="w-full h-full object-fit max-h-[35em]" alt="">
       </div>
     </section>
   `,

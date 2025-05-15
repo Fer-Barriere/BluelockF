@@ -21,6 +21,12 @@ export interface Jugador {
   estadisticas?: Estadisticas;
 }
 
+export interface MaxStatCard {
+  title: string;
+  imageUrl: string;
+  player: string;
+  stat: number;
+}
 @Injectable({
   providedIn: 'root',
 })
@@ -41,8 +47,8 @@ export class JugadorService {
   agregarJugador(jugador: Jugador): Observable<Jugador> {
     return this.http.post<Jugador>(this.apiUrl, jugador);
   }
-  obtenerMaximos(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/Maximos`);
+  obtenerMaximos(): Observable<MaxStatCard[]> {
+    return this.http.get<MaxStatCard[]>(`${this.apiUrl}/Maximos`);
   }
   editarJugador(jugador: Jugador): Observable<Jugador> {
     return this.http.put<Jugador>(`${this.apiUrl}/${jugador.id}`, jugador);

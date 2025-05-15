@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, Signal, signal } from '@angular/core';
 import { Observable } from 'rxjs';
+import { LastMatchInfo } from '../../../models/lastMatch.model';
 
 export interface Jugador {
   id?: string;
@@ -66,5 +67,10 @@ export class PartidoService {
     return this.http.delete<void>(
       `${this.apiUrl}/eliminarPartido/${partidoId}`
     );
+  }
+
+  // Método para obtener el ultimo partido
+  obtenerUltimoPartido(): Observable<LastMatchInfo> {
+    return this.http.get<LastMatchInfo>(`${this.apiUrl}/ultimo-partido`);
   }
 }
