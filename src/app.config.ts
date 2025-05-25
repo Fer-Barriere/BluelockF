@@ -12,6 +12,6 @@ export const appConfig: ApplicationConfig = {
         provideRouter(appRoutes, withInMemoryScrolling({ anchorScrolling: 'enabled', scrollPositionRestoration: 'enabled' }), withEnabledBlockingInitialNavigation()),
         provideHttpClient(withFetch(), withInterceptors([AuthInterceptor])), // 💡 Aquí se registra el interceptor
         provideAnimationsAsync(),
-        providePrimeNG({ theme: { preset: Aura, options: { darkModeSelector: '.app-dark' } } }),
+        providePrimeNG({ theme: { preset: Aura, options: { cssLayer: {name: 'primeng', order: 'tailwind-base, primeng, tailwind-utilities'}, darkModeSelector: '.app-dark' } } }),
     ]
 };

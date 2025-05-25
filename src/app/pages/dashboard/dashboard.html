@@ -1,12 +1,12 @@
+<h1>Ultimo Partido</h1>
 <div class="grid grid-cols-1 xl:grid-cols-2 gap-y-4 gap-x-4 mb-5">
   @if (ultimoPartido) {
     <app-last-match-card [lastMatchInfo]=ultimoPartido />
+    <line-up-card [lastMatchInfo]=ultimoPartido />
   }
-  <line-up-card />
 </div>
 
-<p-divider />
-<div class="grid grid-cols-1  xl:grid-cols-3 mt-2 gap-y-4 gap-x-4">
+<div class="grid grid-cols-1 xl:grid-cols-3 mt-2 gap-y-4 gap-x-4">
   @for (item of statsData; track $index + item.title) {
     <stat-card [imageUrl]="item.imageUrl" [stat]=item.stat [title]=item.title [player]=item.player />
   }
