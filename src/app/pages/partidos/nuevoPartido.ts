@@ -19,11 +19,12 @@ import { InputIconModule } from 'primeng/inputicon';
 import { IconFieldModule } from 'primeng/iconfield';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { JugadorService, Jugador } from '../service/jugador.service';
-import { PartidoService,Partido } from '../service/partido.service';
+import { PartidoService, Partido } from '../service/partido.service';
 import { Formacion } from '../formacion/formacion';
 
 @Component({
-    selector: 'app-alineacion',
+    selector: 'app-nuevo-partido',
+    standalone: true,
     imports: [
         CommonModule,
         TableModule,
@@ -45,10 +46,10 @@ import { Formacion } from '../formacion/formacion';
         ConfirmDialogModule,
         Formacion
     ],
-    templateUrl: 'alineacion.html',
+    templateUrl: 'nuevoPartido.html',
     providers: [MessageService, JugadorService, ConfirmationService, PartidoService]
 })
-export class Alineacion implements OnInit {
+export class NuevoPartido implements OnInit {
     inscritos: Jugador[] = [];
     jugadores = signal<Jugador[]>([]); // Aquí definimos el signal
     presentados: Jugador[] = [];
@@ -57,7 +58,7 @@ export class Alineacion implements OnInit {
     jsonOutput: string = '';
     mostrarModal = false; // Controla la visibilidad del modal
     idPartido!: string;
-    partidoCreado!: Partido
+    partidoCreado!: Partido;
 
     constructor(
         private jugadorService: JugadorService,
@@ -68,7 +69,7 @@ export class Alineacion implements OnInit {
 
     ngOnInit() {
         this.jugadorService.cargarJugadores(); // Llama a la API para obtener los datos
-        this.jugadores = this.jugadorService.jugadores; // Aquí usamos el signal de la API        
+        this.jugadores = this.jugadorService.jugadores; // Aquí usamos el signal de la API
         this.actualizarSeleccionados();
     }
 
@@ -90,9 +91,6 @@ export class Alineacion implements OnInit {
 
             // Actualizar la selección
             this.selectedJugadores = [...this.selectedJugadores]; // Forzar la actualización de la selección
-            
-            
-
         }
     }
 
@@ -112,51 +110,45 @@ export class Alineacion implements OnInit {
         this.jsonVisible = !this.jsonVisible;
     }
     abrirModal(id: string) {
-      this.idPartido = id; // Asigna el ID
-      this.mostrarModal = true; // Abre el modal
+        this.idPartido = id; // Asigna el ID
+        this.mostrarModal = true; // Abre el modal
     }
     confirm1(event: Event) {
         // Extraemos los IDs de los jugadores presentados y filtramos los undefined
-        const jugadorIds = this.presentados
-          .map(jugador => jugador.id)
-          .filter((id): id is string => id !== undefined); // Filtra los undefined
-      
+        const jugadorIds = this.presentados.map((jugador) => jugador.id).filter((id): id is string => id !== undefined); // Filtra los undefined
+
         // Llamamos al servicio de partido para enviar la información a la API
         this.confirmationService.confirm({
-          message: `¿Estás seguro de que deseas generar la alineación con ${this.presentados.length} jugadores?`,
-          accept: () => {
-            // Llamamos al método modificado para enviar el arreglo de IDs
-            this.partidoService.agregarPartido(jugadorIds).subscribe({
-              next: (response) => {
-                // Muestra el Toast de éxito cuando la alineación se genera correctamente
-                this.messageService.add({
-                  severity: 'success',
-                  summary: 'Partido Creado',
-                  detail: 'La alineación se ha generado correctamente.',
-                });
-                this.partidoCreado = response
-                if (response && this.partidoCreado.id) {
-                    this.abrirModal(this.partidoCreado.id)
-                } else {
+            message: `¿Estás seguro de que deseas generar la alineación con ${this.presentados.length} jugadores?`,
+            accept: () => {
+                // Llamamos al método modificado para enviar el arreglo de IDs
+                this.partidoService.agregarPartido(jugadorIds).subscribe({
+                    next: (response) => {
+                        // Muestra el Toast de éxito cuando la alineación se genera correctamente
+                        this.messageService.add({
+                            severity: 'success',
+                            summary: 'Partido Creado',
+                            detail: 'La alineación se ha generado correctamente.'
+                        });
+                        this.partidoCreado = response;
+                        if (response && this.partidoCreado.id) {
+                            this.abrirModal(this.partidoCreado.id);
+                        } else {
+                        }
+                    },
+                    error: (error) => {
+                        // Extrae el mensaje de error en caso de que la API devuelva un error estructurado
+                        const errorMessage = error?.error?.error || error?.message || 'Hubo un problema al generar la alineación.';
 
-                }
-              },
-              error: (error) => {
-                // Extrae el mensaje de error en caso de que la API devuelva un error estructurado
-                const errorMessage = error?.error?.error || error?.message || 'Hubo un problema al generar la alineación.';
-                
-                // Muestra el Toast de error cuando ocurre un problema
-                this.messageService.add({
-                  severity: 'error',
-                  summary: 'Error',
-                  detail: errorMessage,
+                        // Muestra el Toast de error cuando ocurre un problema
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: 'Error',
+                            detail: errorMessage
+                        });
+                    }
                 });
-              },
-            });
-          }
+            }
         });
-      }
-      
-    
-    
+    }
 }

@@ -6,13 +6,14 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { RippleModule } from 'primeng/ripple';
-import { AuthService } from '../service/auth.service';
 import { Router } from '@angular/router';
+import { AuthService } from '../service/auth.service';
+import { AppFloatingConfigurator } from '../../layout/component/app.floatingconfigurator';
 
 @Component({
     selector: 'app-login',
     standalone: true,
-    imports: [ButtonModule, CheckboxModule, InputTextModule, PasswordModule, FormsModule, RouterModule, RippleModule],
+    imports: [ButtonModule, CheckboxModule, InputTextModule, PasswordModule, FormsModule, RouterModule, RippleModule, AppFloatingConfigurator],
     templateUrl: './login.html'
 })
 export class Login {
@@ -32,8 +33,7 @@ export class Login {
             alert('Por favor, ingrese su correo y contraseña.');
             return;
         }
-
-        this.authService.login(this.email, this.password).subscribe({
+        this.authService.login(this.email.toLowerCase(), this.password).subscribe({
             next: (res) => {
                 localStorage.setItem('token', res.token);
                 this.router.navigate(['/']); // Redirigir al Dashboard

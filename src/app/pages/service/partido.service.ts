@@ -43,7 +43,7 @@ export interface Partido {
 })
 export class PartidoService {
   constructor(private http: HttpClient) {}
-  private apiUrl = 'https://bluelockb.onrender.com/api/partidos';
+  private apiUrl = 'https://bluelockb.onrender.com/api/partidos'; //'http://localhost:5000/api/partidos'
 
   partidos = signal<Partido[]>([]);
 
@@ -60,6 +60,9 @@ export class PartidoService {
     return this.http.post<Partido>(`${this.apiUrl}/generar`, {
       ids: jugadores,
     });
+  }
+  actualizarAlineacionPartido(id: string, cambios: any): Observable<Partido> {
+    return this.http.put<Partido>(`${this.apiUrl}/actualizar-alineacion/${id}`, cambios);
   }
   // Método para eliminar un partido
   eliminarPartido(partidoId: string): Observable<void> {

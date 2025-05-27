@@ -1,30 +1,41 @@
 import { Component, OnInit } from '@angular/core';
 import { AvatarModule } from 'primeng/avatar';
-import { JugadorService } from '../service/jugador.service';
-// <div class="grid grid-cols-12 gap-8">
-//             <app-stats-widget class="contents" />
-//             <div class="col-span-12 xl:col-span-6">
-//                 <app-recent-sales-widget />
-//             </div>
-//         </div>
+import { JugadorService, MaximoJugador } from '../service/jugador.service';
+import { CommonModule } from '@angular/common';
+
 @Component({
     selector: 'app-dashboard',
-    imports: [AvatarModule],
+    imports: [AvatarModule, CommonModule],
     templateUrl: `./dashboard.html`
 })
 export class Dashboard implements OnInit {
-
-    maximoGoleador: any = {};
-    maximoAsistidor: any = {};
-    maximoAtajador: any = {};
+    cardMaximos: MaximoJugador[] = [];
+    stats = {
+        goleadores: [] as { player: string; stat: number }[],
+        asistidores: [] as { player: string; stat: number }[],
+        atajadores: [] as { player: string; stat: number }[]
+      };
 
     constructor(private jugadorService: JugadorService) {}
-    
+
     ngOnInit(): void {
-        this.jugadorService.obtenerMaximos().subscribe(data => {
-            this.maximoGoleador = data.maxGoleador;
-            this.maximoAsistidor = data.maxAsistente;
-            this.maximoAtajador = data.maxAtajadas;
-          });
+        this.jugadorService.obtenerMaximos().subscribe((data) => {
+            this.cardMaximos = data.map((jugador) => ({
+                title: jugador.title,
+                player: jugador.player,
+                stat: jugador.stat,
+                image: `assets/MC${Math.floor(Math.random() * 5) + 1}.png`
+            }));
+        });
+          this.jugadorService.obtenerLeaderboard().subscribe((data) => {
+        this.stats = data;
+      });
     }
+    get statsList() {
+    return [
+      { title: 'Top Goleadores', jugadores: this.stats.goleadores },
+      { title: 'Top Asistidores', jugadores: this.stats.asistidores },
+      { title: 'Top Atajadores', jugadores: this.stats.atajadores }
+    ];
+  }
 }
