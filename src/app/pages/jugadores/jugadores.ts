@@ -18,8 +18,10 @@ import { TagModule } from 'primeng/tag';
 import { InputIconModule } from 'primeng/inputicon';
 import { IconFieldModule } from 'primeng/iconfield';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { Jugador, JugadorService, Estadisticas } from '../service/jugador.service';
+import { Jugador, JugadorService, Estadisticas, datosMedia } from '../service/jugador.service';
 import { BadgeModule } from 'primeng/badge';
+import { ChartModule } from 'primeng/chart';
+import { FloatLabelModule } from 'primeng/floatlabel';
 
 interface Column {
     field: string;
@@ -54,7 +56,9 @@ interface ExportColumn {
         InputIconModule,
         IconFieldModule,
         ConfirmDialogModule,
-        BadgeModule
+        BadgeModule,
+        ChartModule,
+        FloatLabelModule 
     ],
     templateUrl: 'jugadores.html',
     providers: [MessageService, JugadorService, ConfirmationService]
@@ -62,7 +66,6 @@ interface ExportColumn {
 export class Jugadores implements OnInit {
     jugadorDialog: boolean = false;
     estadisticasDialog: boolean = false;
-
     jugadores = signal<Jugador[]>([]);
     data: Jugador[] = [];
 
@@ -82,6 +85,10 @@ export class Jugadores implements OnInit {
 
     cols!: Column[];
 
+    radarData: any;    
+
+    radarOptions: any;
+
     constructor(
         private jugadorService: JugadorService,
         private messageService: MessageService,
@@ -90,35 +97,132 @@ export class Jugadores implements OnInit {
 
     ngOnInit() {
         this.jugadorService.cargarJugadores(); // Llama a la API para obtener los datos
-        this.jugadores = this.jugadorService.jugadores;     
+        this.jugadores = this.jugadorService.jugadores;  
     }
 
     onGlobalFilter(table: Table, event: Event) {
         table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
     }
-
+getEmptyJugador(): Jugador {
+        return {
+              id: '',
+              nombre: '',
+              apodo: '',
+              pos_principal: '',
+              pos_secundaria: '',
+              pierna_habil: '',
+              media: 0,
+              datosMedia: {
+                  ritmo: 0,
+                  tiro: 0,
+                  pase: 0,
+                  regate: 0,
+                  defensa: 0,
+                  fisico: 0
+              }
+        };
+    }
     openNew() {
-        this.jugador = {};
+        this.jugador = this.getEmptyJugador();// Inicializa un nuevo jugador
         this.submitted = false;
         this.jugadorDialog = true;
     }
 
     editJugador(jugador: Jugador) {
-        this.jugador = { ...jugador };
+        this.jugador = { ...jugador}
         this.jugadorDialog = true;
-
-        console.log(this.jugador.id);
     }
+    calcularMedia() {
+        if (this.jugador.datosMedia) {
+          const { ritmo, tiro, pase, regate, defensa, fisico } = this.jugador.datosMedia;
+          const valores = [ritmo, tiro, pase, regate, defensa, fisico].filter(v => v !== null && v !== undefined);
+          if (valores.length > 0) {
+            this.jugador.media = Math.round(valores.reduce((sum, val) => sum + val, 0) / valores.length);
+          } else {
+            this.jugador.media = 0; // Si no hay valores, la media es 0
+          }
+        }
+      }
+    initCharts(jugador: Jugador) {
+        if (!jugador.datosMedia) return;
+        const documentStyle = getComputedStyle(document.documentElement);
+        const textColor = documentStyle.getPropertyValue('--text-color');
+        const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
+        const indigo = documentStyle.getPropertyValue('--p-indigo-400');
+    
+        const data = [
+            Math.round(jugador.datosMedia.ritmo ?? 0),
+            Math.round(jugador.datosMedia.tiro ?? 0),
+            Math.round(jugador.datosMedia.pase ?? 0),
+            Math.round(jugador.datosMedia.regate ?? 0),
+            Math.round(jugador.datosMedia.defensa ?? 0),
+            Math.round(jugador.datosMedia.fisico ?? 0)
+        ];
+    
+        this.radarData = {
+            labels: ['Ritmo', 'Tiro', 'Pase', 'Regate', 'Defensa', 'Físico'],
+            datasets: [
+                {
+                    label: 'Media',
+                    data: data,
+                    borderColor: indigo,
+                    backgroundColor: indigo + '33', // transparencia
+                    pointBackgroundColor: indigo,
+                    pointBorderColor: indigo,
+                    pointHoverBackgroundColor: textColor,
+                    pointHoverBorderColor: indigo,
+                    fill: true
+                }
+            ]
+        };
+    
+        this.radarOptions = {
+            plugins: {
+                legend: {
+                    labels: {
+                        color: textColor
+                    }
+                }
+            },
+            scales: {
+                r: {
+                    suggestedMin: 20,
+                    suggestedMax: 100,
+                    ticks: {
+                        stepSize: 20,
+                        color: textColor
+                    },
+                    pointLabels: {
+                        color: textColor,
+                        font: {
+                            size: 14
+                        }
+                    },
+                    grid: {
+                        color: surfaceBorder
+                    },
+                    angleLines: {
+                        color: surfaceBorder
+                    }
+                }
+            }
+        };
+    }
+    
     estadisticasJugador(jugador: Jugador){
+        this.initCharts(jugador)
+        this.jugador = { ...jugador };
         this.estadisticas = {
             partidosJugados: jugador.estadisticas?.partidosJugados ?? 0,
             partidosGanados: jugador.estadisticas?.partidosGanados ?? 0,
             goles: jugador.estadisticas?.goles ?? 0,
             asistencias: jugador.estadisticas?.asistencias ?? 0,
-            atajadas: jugador.estadisticas?.atajadas ?? 0
+            atajadas: jugador.estadisticas?.atajadas ?? 0,
+            porcentajeVictoria: jugador.estadisticas?.porcentajeVictoria ?? 0
         };
         this.estadisticasDialog = true;
     }
+    
     deleteJugador(jugador: Jugador) {
         this.confirmationService.confirm({
             message: `¿Estás seguro de que deseas eliminar a ${jugador.nombre}?`,
@@ -140,6 +244,7 @@ export class Jugadores implements OnInit {
     hideDialog() {
         this.jugadorDialog = false;
         this.submitted = false;
+        this.jugadorService.cargarJugadores();
         this.estadisticasDialog = false;
     }
     posiciones = [

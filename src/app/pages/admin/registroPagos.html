@@ -1,0 +1,28 @@
+
+
+<p-toolbar styleClass="mb-6">
+    <ng-template #start>
+        <p-button label="Guardar Cambios" icon="pi pi-save" severity="secondary" class="mr-2" (onClick)="guardarCambios()" />
+    </ng-template>
+</p-toolbar>
+<p-toast></p-toast>
+<p-table [value]="jugadores()" [responsiveLayout]="'scroll'">
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Nombre</th>
+      <th>Estado de Pago</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-jugador>
+    <tr>
+      <td>{{ jugador.apodo }}</td>
+      <td>
+        <p-toggleSwitch
+          [ngModel]="jugador.estadoPagos"
+          (ngModelChange)="cambiarEstado(jugador, $event)"
+        ></p-toggleSwitch>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+<p-confirmDialog></p-confirmDialog>

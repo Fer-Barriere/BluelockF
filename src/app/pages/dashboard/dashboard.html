@@ -6,8 +6,23 @@
   }
 </div>
 
-<div class="grid grid-cols-1 xl:grid-cols-3 mt-2 gap-y-4 gap-x-4">
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 mt-2 gap-4 mb-5">
   @for (item of statsData; track $index + item.title) {
     <stat-card [imageUrl]="item.imageUrl" [stat]=item.stat [title]=item.title [player]=item.player />
   }
 </div>
+
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+  <div *ngFor="let grupo of statsList" >
+    <div class="card p-4 rounded-lg">
+      <h3 class="text-xl font-semibold mb-4">{{ grupo.title }}</h3>
+      <ul class="space-y-2">
+        <li *ngFor="let jugador of grupo.jugadores; let i = index" class="flex items-center justify-between">
+          <span>{{ i + 1 }}.º {{ jugador.player }}</span>
+          <span class="font-bold">{{ jugador.stat }}</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+

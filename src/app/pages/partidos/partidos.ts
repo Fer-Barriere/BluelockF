@@ -1,3 +1,4 @@
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { FormsModule } from '@angular/forms';
@@ -11,11 +12,13 @@ import { HttpClient } from '@angular/common/http';
 import { ToastModule } from 'primeng/toast';
 import { PartidoService } from '../service/partido.service';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { Component } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { TableModule } from 'primeng/table';
 import { Formacion } from '../formacion/formacion';
 import { SelectModule } from 'primeng/select';
+
+import { AccordionModule } from 'primeng/accordion';
+
 
 interface Jugador {
     id: string;
@@ -81,25 +84,31 @@ export interface Partido {
         ToastModule, // Incluir el módulo ToastModule
         ConfirmDialogModule,
         Formacion,
+        AccordionModule,
         SelectModule
     ],
-    templateUrl: './partidos.component.html',
-    styleUrl: './partidos.component.css',
+    templateUrl: './partidos.html',
+    styleUrl: './partidos.css',
     providers: [MessageService, ConfirmationService] // Agregar MessageService al proveedor
 })
-export class PartidosComponent {
+export class Partidos {
     partidos: Partido[] = [];
     modalVisible = false;
     selectedMatch: Partido = this.getEmptyMatch(); // Inicialización correcta
     showPopoverBlanco = false;
     showPopoverNegro = false;
     mostrarModal = false; // Controla la visibilidad del modal
+    mostrarAlineacion = false;
     idPartido!: string;
 
     abrirModal(id: string) {
       this.idPartido = id; // Asigna el ID
       this.mostrarModal = true; // Abre el modal
     }
+    editarAlineacion(id: string) {
+        this.idPartido = id; // Asigna el ID
+        this.mostrarAlineacion = true; // Abre el modal
+      }
     constructor(
         private http: HttpClient,
         private messageService: MessageService,
@@ -260,6 +269,10 @@ export class PartidosComponent {
                 }
             );
         }
+    }
+
+    get esSoloLectura(): boolean {
+        return this.selectedMatch?.estado === 'Cerrado';
     }
 
     getEmptyMatch(): Partido {
