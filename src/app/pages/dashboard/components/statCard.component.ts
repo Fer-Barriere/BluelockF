@@ -15,17 +15,16 @@ import { CardModule } from 'primeng/card';
             alt="{{ player }}-img"
           />
         <!-- Segunda seccion -->
-        <div class="flex flex-col  justify-center">
+        <div class="flex flex-col justify-center">
           <p class="text-base text-left font-bold text-gray-900 dark:text-white">
             {{ title }}
           </p>
-          <p class="text-3xl font-bold text-gray-900 dark:text-white">
+          <p class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">
             {{ player }}
           </p>
         </div>
         <!-- estadistica -->
         <div class="flex items-center justify-evenly">
-          <p-divider layout="vertical" />
           <p class="text-5xl md:text-6xl xl:text-7xl font-bold ">
             {{ stat }}
           </p>

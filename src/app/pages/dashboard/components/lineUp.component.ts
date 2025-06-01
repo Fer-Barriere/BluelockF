@@ -12,7 +12,7 @@ import {ToggleSwitchModule} from 'primeng/toggleswitch';
     template: `<section class="rounded-xl pt-5 2xl:px-5 flex flex-col gap-y-5 bg-zinc-900">
 
             <!-- ENCABEZADO -->
-            <section class="flex flex-col md:flex-row gap-y-4 justify-between px-5 py-6">
+            <section class="flex flex-col md:flex-row gap-y-4 justify-between px-8 py-6">
               <h1 class="mb-2 text-center text-4xl font-bold text-gray-900 dark:text-white">Alineación</h1>
               <div class="flex items-center justify-center gap-x-4 text-xl font-bold">
                 <span>Negro</span>
@@ -78,7 +78,7 @@ import {ToggleSwitchModule} from 'primeng/toggleswitch';
             </section>
 
             <!-- SUPLENTES -->
-            <section class="flex flex-col gap-y-2 px-5 py-6">
+            <section class="flex flex-col gap-y-2 px-8 py-6">
               <h2 class="mb-1 text-2xl font-bold text-gray-900 dark:text-white">Suplentes</h2>
               <ul class="font-medium text-lg">
                 @for(item of suplentes; track $index + item._id){
