@@ -9,13 +9,13 @@ import { AuthInterceptor } from './app/interceptors/auth.interceptor';
 
 export const appConfig: ApplicationConfig = {
     providers: [
-        provideRouter(appRoutes, 
-            withInMemoryScrolling({ anchorScrolling: 'enabled', scrollPositionRestoration: 'enabled' }), 
+        provideRouter(appRoutes,
+            withInMemoryScrolling({ anchorScrolling: 'enabled', scrollPositionRestoration: 'enabled' }),
             withEnabledBlockingInitialNavigation(),
             withHashLocation()
         ),
         provideHttpClient(withFetch(), withInterceptors([AuthInterceptor])),
         provideAnimationsAsync(),
-        providePrimeNG({ theme: { preset: Aura, options: { darkModeSelector: '.app-dark' } } })
+        providePrimeNG({ theme: { preset: Aura, options: { cssLayer: {name: 'primeng', order: 'tailwind-base, primeng, tailwind-utilities'}, darkModeSelector: '.app-dark' } } }),
     ]
 };

@@ -10,7 +10,7 @@ export interface Estadisticas {
   atajadas: number;
   porcentajeVictoria: number;
 }
-export interface datosMedia {  
+export interface datosMedia {
     ritmo?: number,
     tiro?: number,
     pase?: number,
@@ -37,6 +37,12 @@ export interface MaximoJugador {
   image: string;
 }
 
+export interface MaxStatCard {
+  title: string;
+  imageUrl: string;
+  player: string;
+  stat: number;
+}
 @Injectable({
   providedIn: 'root',
 })
@@ -66,6 +72,9 @@ export class JugadorService {
   }
   agregarJugador(jugador: Jugador): Observable<Jugador> {
     return this.http.post<Jugador>(this.apiUrl, jugador);
+  }
+  obtenerMaximo2(): Observable<MaxStatCard[]> {
+    return this.http.get<MaxStatCard[]>(`${this.apiUrl}/Maximos`);
   }
   obtenerMaximos(): Observable<MaximoJugador[]> {
     return this.http.get<MaximoJugador[]>(`${this.apiUrl}/Maximos`);
