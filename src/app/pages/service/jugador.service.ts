@@ -67,6 +67,9 @@ export class JugadorService {
   obtenerLeaderboard(): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/leaderboard`);
   }
+  getleaderboardMedia(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/leaderboardMedia75`);
+  }
   cargarJugadoresDisp(): Observable<Jugador[]> {
     return this.http.get<Jugador[]>(this.apiUrl)
   }

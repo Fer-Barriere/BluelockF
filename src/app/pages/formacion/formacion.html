@@ -7,7 +7,7 @@
       <h2 class="text-xl font-bold text-blue-500">Media Total: {{ partido.equipoBlanco.mediaTotal }}</h2>
 
       <div class="grid grid-rows-4 grid-cols-5 gap-4 mt-4 w-full cancha"
-        style="background-image: url(assets/field.png);">
+        style="background-image: url(assets/field_2.webp);">
         <ng-container *ngFor="let posicion of partido.equipoBlanco.jugadores">
           <div class="relative flex flex-col items-center" [style.gridColumn]="posicion.col"
             [style.gridRow]="posicion.row">
@@ -37,7 +37,7 @@
       <h2 class="text-xl font-bold text-gray-700">Media Total: {{ partido.equipoNegro.mediaTotal }}</h2>
 
       <div class="grid grid-rows-4 grid-cols-5 gap-4 mt-4 w-full cancha"
-        style="background-image: url(assets/field.png);">
+        style="background-image: url(assets/field_2.webp);">
         <ng-container *ngFor="let posicion of partido.equipoNegro.jugadores">
           <div class="relative flex flex-col items-center" [style.gridColumn]="posicion.col"
             [style.gridRow]="posicion.row">

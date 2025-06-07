@@ -23,6 +23,11 @@ export class Dashboard implements OnInit {
         asistidores: [] as { player: string; stat: number }[],
         atajadores: [] as { player: string; stat: number }[]
       };
+    rankingMedia = {
+        goleadores: [] as { player: string; stat: number }[],
+        asistidores: [] as { player: string; stat: number }[],
+        atajadores: [] as { player: string; stat: number }[]
+      };
 
     constructor(
         private jugadorService: JugadorService,
@@ -69,16 +74,19 @@ export class Dashboard implements OnInit {
                 image: `assets/MC${Math.floor(Math.random() * 5) + 1}.png`
             }));
         });
-          this.jugadorService.obtenerLeaderboard().subscribe((data) => {
+      this.jugadorService.obtenerLeaderboard().subscribe((data) => {
         this.ranking = data;
+      });
+      this.jugadorService.getleaderboardMedia().subscribe((data) => {
+        this.rankingMedia = data;
       });
     }
 
     get statsList() {
     return [
-      { title: 'Top Goleadores', jugadores: this.ranking.goleadores },
-      { title: 'Top Asistidores', jugadores: this.ranking.asistidores },
-      { title: 'Top Atajadores', jugadores: this.ranking.atajadores }
+      { title: 'Top Goleadores', jugadores: this.ranking.goleadores , jugadoresMedia: this.rankingMedia.goleadores },
+      { title: 'Top Asistidores', jugadores: this.ranking.asistidores, jugadoresMedia: this.rankingMedia.asistidores },
+      { title: 'Top Atajadores', jugadores: this.ranking.atajadores, jugadoresMedia: this.rankingMedia.atajadores }
     ];
   }
 }
