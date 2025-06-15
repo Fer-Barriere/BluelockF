@@ -75,7 +75,7 @@
           <h3>Jugadores Blanco</h3>
           @for (goleador of getGoleadoresBlanco(); track goleador.jugador.id) {
           <p-accordion-panel [value]="goleador.jugador.id">
-            <p-accordion-header>{{ goleador.equipo }}</p-accordion-header>
+            <p-accordion-header>{{ goleador.jugador.nombre }}</p-accordion-header>
             <p-accordion-content>
               <div class="p-fluid grid gap-2">
                 <!-- Goles -->
