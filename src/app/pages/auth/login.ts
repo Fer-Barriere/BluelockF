@@ -9,14 +9,17 @@ import { RippleModule } from 'primeng/ripple';
 import { Router } from '@angular/router';
 import { AuthService } from '../service/auth.service';
 import { AppFloatingConfigurator } from '../../layout/component/app.floatingconfigurator';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'app-login',
     standalone: true,
-    imports: [ButtonModule, CheckboxModule, InputTextModule, PasswordModule, FormsModule, RouterModule, RippleModule, AppFloatingConfigurator],
+    imports: [ButtonModule, CheckboxModule, InputTextModule, PasswordModule, FormsModule, RouterModule, RippleModule, AppFloatingConfigurator, ProgressSpinnerModule, CommonModule],
     templateUrl: './login.html'
 })
 export class Login {
+    loading = false;
     email: string = '';
 
     password: string = '';
@@ -33,12 +36,16 @@ export class Login {
             alert('Por favor, ingrese su correo y contraseña.');
             return;
         }
+        this.loading = true;
         this.authService.login(this.email.toLowerCase(), this.password).subscribe({
             next: (res) => {
                 localStorage.setItem('token', res.token);
                 this.router.navigate(['/']); // Redirigir al Dashboard
             },
-            error: () => alert('Credenciales incorrectas')
+            error: () => {
+                alert('Credenciales incorrectas');
+                this.loading = false;
+            }
         });
     }
 }

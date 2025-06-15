@@ -19,7 +19,6 @@ import { SelectModule } from 'primeng/select';
 
 import { AccordionModule } from 'primeng/accordion';
 
-
 interface Jugador {
     id: string;
     nombre: string;
@@ -99,16 +98,19 @@ export class Partidos {
     showPopoverNegro = false;
     mostrarModal = false; // Controla la visibilidad del modal
     mostrarAlineacion = false;
+    panelesActivosBlanco: any[] = [];
+    panelesActivosNegro: any[] = [];
+    renderAccordion = true;
     idPartido!: string;
 
     abrirModal(id: string) {
-      this.idPartido = id; // Asigna el ID
-      this.mostrarModal = true; // Abre el modal
+        this.idPartido = id; // Asigna el ID
+        this.mostrarModal = true; // Abre el modal
     }
     editarAlineacion(id: string) {
         this.idPartido = id; // Asigna el ID
         this.mostrarAlineacion = true; // Abre el modal
-      }
+    }
     constructor(
         private http: HttpClient,
         private messageService: MessageService,
@@ -125,9 +127,24 @@ export class Partidos {
             this.partidos = data.map((partido: any) => ({
                 ...partido,
                 id: partido._id // Asignar _id a id
-            }));            
+            }));
         });
-        
+    }
+
+    resetAccordion() {
+        this.panelesActivosBlanco = [];
+        this.panelesActivosNegro = [];
+    }
+    onModalOpen() {
+        this.renderAccordion = false;
+        setTimeout(() => {
+            this.renderAccordion = true;
+            this.resetAccordion();
+        }, 0);
+    }
+
+    onModalClose() {
+        this.resetAccordion();
     }
     editarPartido(partido: Partido) {
         this.selectedMatch = { ...partido, highlights: [...partido.highlights] };
@@ -178,8 +195,8 @@ export class Partidos {
             id: jugador.id,
             jugador: { id: jugador.id, nombre: jugador.apodo }, // Ajustamos para que encaje con la nueva estructura
             goles: 0,
-            asistencias:0,
-            atajadas:0,
+            asistencias: 0,
+            atajadas: 0,
             equipo: equipo
         });
         equipo === 'Blanco' ? (this.showPopoverBlanco = false) : (this.showPopoverNegro = false);
@@ -219,15 +236,14 @@ export class Partidos {
             }
         });
     }
-    verAlineacion(id: string)
-    {
-        alert(`Alineacion de: ${id}`)
+    verAlineacion(id: string) {
+        alert(`Alineacion de: ${id}`);
     }
 
     opcionesEstado = [
-        {label: 'Abierto', value: 'Abierto'},
-        {label: 'Cerrado', value: 'Cerrado'}
-    ]
+        { label: 'Abierto', value: 'Abierto' },
+        { label: 'Cerrado', value: 'Cerrado' }
+    ];
     saveMatch() {
         const index = this.partidos.findIndex((p) => p.id === this.selectedMatch.id);
         if (index !== -1) {
@@ -250,7 +266,7 @@ export class Partidos {
                 atajadas: goleador.atajadas
             }));
 
-            const estado = this.selectedMatch.estado
+            const estado = this.selectedMatch.estado;
             // Estructura de la información a enviar
             const partidoAEnviar = {
                 marcador,

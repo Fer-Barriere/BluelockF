@@ -28,7 +28,8 @@
   </div>
 </div>
 
-<p-dialog header="Editar Partido" [(visible)]="modalVisible" [modal]="true" [closable]="true">
+<p-dialog header="Editar Partido" [(visible)]="modalVisible" [modal]="true" [closable]="true" (onHide)="onModalClose()"
+  (onShow)="onModalOpen()">
   <div class="card w-full md:w-auto">
     <div>
       Equipo Blanco <span class="marcador">{{ selectedMatch.marcador.equipoBlanco }}</span> -
@@ -68,106 +69,120 @@
       </div>
 
       <!-- Lista Blancos -->
-      <div>
+      <div class="card">
         <p *ngIf="!getGoleadoresBlanco().length">No hay highlights registradas</p>
-        <p-accordion *ngIf="getGoleadoresBlanco().length" [activeIndex]="null">
-          <h3>Jugadores Blancos</h3>
-          <p-accordionTab *ngFor="let goleador of getGoleadoresBlanco(); let i = index"
-            [header]="goleador.jugador.nombre">
+        <p-accordion *ngIf="getGoleadoresBlanco().length && renderAccordion" [(activeIndex)]="panelesActivosBlanco">
+          <h3>Jugadores Blanco</h3>
+          @for (goleador of getGoleadoresBlanco(); track goleador.jugador.id) {
+          <p-accordion-panel [value]="goleador.jugador.id">
+            <p-accordion-header>{{ goleador.equipo }}</p-accordion-header>
+            <p-accordion-content>
+              <div class="p-fluid grid gap-2">
+                <!-- Goles -->
+                <div class="col-12 md:col-4 p-field mb-2 text-sm">
+                  <label class="block font-medium mb-1">Goles</label>
+                  <ng-container *ngIf="!esSoloLectura; else soloVistaGoles">
+                    <p-inputNumber [(ngModel)]="goleador.goles" [min]="0" [max]="100" [showButtons]="true"
+                      inputStyleClass="text-sm w-full" />
+                  </ng-container>
+                  <ng-template #soloVistaGoles>
+                    <span>{{ goleador.goles }}</span>
+                  </ng-template>
+                </div>
 
-            <div class="p-fluid grid gap-2">
-              <div class="col-12 md:col-4 p-field mb-2 text-sm">
-                <label class="block font-medium mb-1">Goles</label>
-                <ng-container *ngIf="!esSoloLectura; else soloVistaGolesB">
-                  <p-inputNumber [(ngModel)]="goleador.goles" [min]="0" [max]="100" [showButtons]="true"
-                    inputStyleClass="text-sm w-full" />
-                </ng-container>
-                <ng-template #soloVistaGolesB>
-                  <span>{{ goleador.goles }}</span>
-                </ng-template>
-              </div>
+                <!-- Asistencias -->
+                <div class="col-12 md:col-4 p-field mb-2 text-sm">
+                  <label class="block font-medium mb-1">Asistencias</label>
+                  <ng-container *ngIf="!esSoloLectura; else soloVistaAsistencias">
+                    <p-inputNumber [(ngModel)]="goleador.asistencias" [min]="0" [max]="100" [showButtons]="true"
+                      inputStyleClass="text-sm w-full" />
+                  </ng-container>
+                  <ng-template #soloVistaAsistencias>
+                    <span>{{ goleador.asistencias }}</span>
+                  </ng-template>
+                </div>
 
-              <div class="col-12 md:col-4 p-field mb-2 text-sm">
-                <label class="block font-medium mb-1">Asistencias</label>
-                <ng-container *ngIf="!esSoloLectura; else soloVistaAsistenciasB">
-                  <p-inputNumber [(ngModel)]="goleador.asistencias" [min]="0" [max]="100" [showButtons]="true"
-                    inputStyleClass="text-sm w-full" />
-                </ng-container>
-                <ng-template #soloVistaAsistenciasB>
-                  <span>{{ goleador.asistencias }}</span>
-                </ng-template>
-              </div>
+                <!-- Atajadas -->
+                <div class="col-12 md:col-4 p-field mb-2 text-sm">
+                  <label class="block font-medium mb-1">Atajadas</label>
+                  <ng-container *ngIf="!esSoloLectura; else soloVistaAtajadas">
+                    <p-inputNumber [(ngModel)]="goleador.atajadas" [min]="0" [max]="100" [showButtons]="true"
+                      inputStyleClass="text-sm w-full" />
+                  </ng-container>
+                  <ng-template #soloVistaAtajadas>
+                    <span>{{ goleador.atajadas }}</span>
+                  </ng-template>
+                </div>
 
-              <div class="col-12 md:col-4 p-field mb-2 text-sm">
-                <label class="block font-medium mb-1">Atajadas</label>
-                <ng-container *ngIf="!esSoloLectura; else soloVistaAtajadasB">
-                  <p-inputNumber [(ngModel)]="goleador.atajadas" [min]="0" [max]="100" [showButtons]="true"
-                    inputStyleClass="text-sm w-full" />
-                </ng-container>
-                <ng-template #soloVistaAtajadasB>
-                  <span>{{ goleador.atajadas }}</span>
-                </ng-template>
+                <!-- Botón eliminar -->
+                <div class="col-12 text-right" *ngIf="!esSoloLectura">
+                  <p-button icon="pi pi-times" (click)="eliminarHighlight(goleador.jugador.id)"
+                    styleClass="p-button-sm p-button-danger" label="Quitar"></p-button>
+                </div>
               </div>
-
-              <div class="col-12 text-right" *ngIf="!esSoloLectura">
-                <p-button icon="pi pi-times" (click)="eliminarHighlight(goleador.jugador.id)"
-                  styleClass="p-button-sm p-button-danger" label="Quitar">
-                </p-button>
-              </div>
-            </div>
-          </p-accordionTab>
+            </p-accordion-content>
+          </p-accordion-panel>
+          }
         </p-accordion>
       </div>
 
+
       <!-- Lista Negros -->
-      <div>
+      <div class="card">
         <p *ngIf="!getGoleadoresNegro().length">No hay highlights registradas</p>
-        <p-accordion *ngIf="getGoleadoresNegro().length" [activeIndex]="null">
-          <h3>Jugadores Negros</h3>
-          <p-accordionTab *ngFor="let goleador of getGoleadoresNegro(); let i = index"
-            [header]="goleador.jugador.nombre">
 
-            <div class="p-fluid grid gap-2">
-              <div class="col-12 md:col-4 p-field mb-2 text-sm">
-                <label class="block font-medium mb-1">Goles</label>
-                <ng-container *ngIf="!esSoloLectura; else soloVistaGolesN">
-                  <p-inputNumber [(ngModel)]="goleador.goles" [min]="0" [max]="100" [showButtons]="true"
-                    inputStyleClass="text-sm w-full" />
-                </ng-container>
-                <ng-template #soloVistaGolesN>
-                  <span>{{ goleador.goles }}</span>
-                </ng-template>
-              </div>
+        <p-accordion *ngIf="getGoleadoresNegro().length && renderAccordion" [(activeIndex)]="panelesActivosNegro">
+          <h3>Jugadores Negro</h3>
+          @for (goleador of getGoleadoresNegro(); track goleador.jugador.id) {
+          <p-accordion-panel [value]="goleador.jugador.id">
+            <p-accordion-header>{{ goleador.jugador.nombre }}</p-accordion-header>
+            <p-accordion-content>
+              <div class="p-fluid grid gap-2">
+                <!-- Goles -->
+                <div class="col-12 md:col-4 p-field mb-2 text-sm">
+                  <label class="block font-medium mb-1">Goles</label>
+                  <ng-container *ngIf="!esSoloLectura; else soloVistaGoles">
+                    <p-inputNumber [(ngModel)]="goleador.goles" [min]="0" [max]="100" [showButtons]="true"
+                      inputStyleClass="text-sm w-full" />
+                  </ng-container>
+                  <ng-template #soloVistaGoles>
+                    <span>{{ goleador.goles }}</span>
+                  </ng-template>
+                </div>
 
-              <div class="col-12 md:col-4 p-field mb-2 text-sm">
-                <label class="block font-medium mb-1">Asistencias</label>
-                <ng-container *ngIf="!esSoloLectura; else soloVistaAsistenciasN">
-                  <p-inputNumber [(ngModel)]="goleador.asistencias" [min]="0" [max]="100" [showButtons]="true"
-                    inputStyleClass="text-sm w-full" />
-                </ng-container>
-                <ng-template #soloVistaAsistenciasN>
-                  <span>{{ goleador.asistencias }}</span>
-                </ng-template>
-              </div>
+                <!-- Asistencias -->
+                <div class="col-12 md:col-4 p-field mb-2 text-sm">
+                  <label class="block font-medium mb-1">Asistencias</label>
+                  <ng-container *ngIf="!esSoloLectura; else soloVistaAsistencias">
+                    <p-inputNumber [(ngModel)]="goleador.asistencias" [min]="0" [max]="100" [showButtons]="true"
+                      inputStyleClass="text-sm w-full" />
+                  </ng-container>
+                  <ng-template #soloVistaAsistencias>
+                    <span>{{ goleador.asistencias }}</span>
+                  </ng-template>
+                </div>
 
-              <div class="col-12 md:col-4 p-field mb-2 text-sm">
-                <label class="block font-medium mb-1">Atajadas</label>
-                <ng-container *ngIf="!esSoloLectura; else soloVistaAtajadasN">
-                  <p-inputNumber [(ngModel)]="goleador.atajadas" [min]="0" [max]="100" [showButtons]="true"
-                    inputStyleClass="text-sm w-full" />
-                </ng-container>
-                <ng-template #soloVistaAtajadasN>
-                  <span>{{ goleador.atajadas }}</span>
-                </ng-template>
-              </div>
+                <!-- Atajadas -->
+                <div class="col-12 md:col-4 p-field mb-2 text-sm">
+                  <label class="block font-medium mb-1">Atajadas</label>
+                  <ng-container *ngIf="!esSoloLectura; else soloVistaAtajadas">
+                    <p-inputNumber [(ngModel)]="goleador.atajadas" [min]="0" [max]="100" [showButtons]="true"
+                      inputStyleClass="text-sm w-full" />
+                  </ng-container>
+                  <ng-template #soloVistaAtajadas>
+                    <span>{{ goleador.atajadas }}</span>
+                  </ng-template>
+                </div>
 
-              <div class="col-12 text-right" *ngIf="!esSoloLectura">
-                <p-button icon="pi pi-times" (click)="eliminarHighlight(goleador.jugador.id)"
-                  styleClass="p-button-sm p-button-danger" label="Quitar">
-                </p-button>
+                <!-- Botón eliminar -->
+                <div class="col-12 text-right" *ngIf="!esSoloLectura">
+                  <p-button icon="pi pi-times" (click)="eliminarHighlight(goleador.jugador.id)"
+                    styleClass="p-button-sm p-button-danger" label="Quitar"></p-button>
+                </div>
               </div>
-            </div>
-          </p-accordionTab>
+            </p-accordion-content>
+          </p-accordion-panel>
+          }
         </p-accordion>
       </div>
     </div>
